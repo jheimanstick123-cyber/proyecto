@@ -1,0 +1,1154 @@
+```html
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Experiencia XR - Tecnologías del Futuro</title>
+
+    <!-- A-Frame para la experiencia 3D / VR -->
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+
+    <!-- Librería para Realidad Aumentada -->
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #07111f;
+            color: white;
+            line-height: 1.6;
+        }
+
+
+        /* ================= INICIO ================= */
+
+        header {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 30px;
+
+            background:
+                radial-gradient(circle at top, #164e63, transparent 45%),
+                linear-gradient(135deg, #020617, #0f172a);
+        }
+
+        .inicio {
+            max-width: 900px;
+        }
+
+        .inicio h1 {
+            font-size: clamp(38px, 8vw, 75px);
+            margin-bottom: 15px;
+        }
+
+        .inicio h1 span {
+            color: #22d3ee;
+        }
+
+        .inicio p {
+            color: #cbd5e1;
+            font-size: 20px;
+            margin-bottom: 30px;
+        }
+
+
+        /* ================= BOTONES ================= */
+
+        .boton {
+            display: inline-block;
+            padding: 14px 25px;
+            border: none;
+            border-radius: 30px;
+            background: #06b6d4;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            margin: 5px;
+        }
+
+        .boton:hover {
+            transform: scale(1.05);
+            background: #0891b2;
+        }
+
+        .boton.secundario {
+            background: #334155;
+        }
+
+
+        /* ================= SECCIONES ================= */
+
+        section {
+            padding: 70px 20px;
+        }
+
+        .contenedor {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .titulo {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .titulo h2 {
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+
+        .titulo p {
+            color: #94a3b8;
+        }
+
+
+        /* ================= TARJETAS ================= */
+
+        .tarjetas {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+
+        .tarjeta {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid #334155;
+            padding: 30px;
+            border-radius: 20px;
+            transition: 0.3s;
+        }
+
+        .tarjeta:hover {
+            transform: translateY(-7px);
+            border-color: #22d3ee;
+        }
+
+        .icono {
+            font-size: 50px;
+            margin-bottom: 10px;
+        }
+
+        .tarjeta h3 {
+            font-size: 25px;
+            margin-bottom: 12px;
+        }
+
+        .tarjeta p {
+            color: #cbd5e1;
+        }
+
+        .ejemplo {
+            margin-top: 18px;
+            padding: 15px;
+            border-left: 4px solid #22d3ee;
+            background: #0f172a;
+            border-radius: 8px;
+        }
+
+
+        /* ================= CIUDAD ================= */
+
+        .ciudad {
+            background: #020617;
+        }
+
+        .escena {
+            height: 500px;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 2px solid #334155;
+            margin-top: 30px;
+        }
+
+
+        /* ================= INFORMACIÓN CIUDAD ================= */
+
+        .info-ciudad {
+            background: #0f172a;
+            border: 2px solid #22d3ee;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            min-height: 120px;
+            transition: 0.3s;
+        }
+
+        .info-ciudad h3 {
+            color: #22d3ee;
+            margin-bottom: 8px;
+            font-size: 25px;
+        }
+
+        .info-ciudad p {
+            color: #cbd5e1;
+        }
+
+
+        /* ================= CONTROLES CIUDAD ================= */
+
+        .controles-ciudad {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+
+        /* Elementos 3D */
+
+        .elemento-ciudad {
+            cursor: pointer;
+        }
+
+
+        /* ================= MODOS XR ================= */
+
+        .modos {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .modo {
+            padding: 30px;
+            background: #111827;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid #374151;
+            transition: 0.3s;
+        }
+
+        .modo:hover {
+            transform: translateY(-5px);
+            border-color: #22d3ee;
+        }
+
+        .modo h3 {
+            font-size: 28px;
+            margin: 10px;
+        }
+
+        .modo p {
+            color: #cbd5e1;
+        }
+
+
+        /* ================= REALIDAD AUMENTADA ================= */
+
+        .ra {
+            background: #0f172a;
+            text-align: center;
+        }
+
+        #mensajeRA {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: #164e63;
+            border-radius: 15px;
+        }
+
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            background: #020617;
+            color: #94a3b8;
+        }
+
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 750px) {
+
+            .tarjetas {
+                grid-template-columns: 1fr;
+            }
+
+            .modos {
+                grid-template-columns: 1fr;
+            }
+
+            .escena {
+                height: 400px;
+            }
+
+            section {
+                padding: 50px 15px;
+            }
+
+            .controles-ciudad .boton {
+                width: 100%;
+                max-width: 300px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= INICIO ================= -->
+
+<header id="inicio">
+
+    <div class="inicio">
+
+        <h1>
+            🌐 Experiencia <span>XR</span>
+        </h1>
+
+        <p>
+            Tecnologías del futuro aplicadas a las ciudades,
+            la sostenibilidad y la conectividad.
+        </p>
+
+        <a href="#temas" class="boton">
+            🚀 Comenzar experiencia
+        </a>
+
+        <a href="#ciudad" class="boton secundario">
+            🏙️ Explorar ciudad 3D
+        </a>
+
+    </div>
+
+</header>
+
+
+
+<!-- ================= TEMAS ================= -->
+
+<section id="temas">
+
+    <div class="contenedor">
+
+        <div class="titulo">
+
+            <h2>💡 Conceptos principales</h2>
+
+            <p>
+                Explora los cuatro conceptos de la experiencia.
+            </p>
+
+        </div>
+
+
+        <div class="tarjetas">
+
+
+            <!-- GEMELOS DIGITALES -->
+
+            <div class="tarjeta">
+
+                <div class="icono">🤖</div>
+
+                <h3>Gemelos Digitales</h3>
+
+                <p>
+                    Un gemelo digital es una representación virtual
+                    de un objeto, sistema o proceso real que permite
+                    analizar su comportamiento mediante datos.
+                </p>
+
+                <div class="ejemplo">
+
+                    <strong>Ejemplo:</strong>
+
+                    Una fábrica puede tener una copia digital
+                    que permite observar máquinas, detectar
+                    problemas y realizar simulaciones.
+
+                </div>
+
+            </div>
+
+
+
+            <!-- CIUDADES INTELIGENTES -->
+
+            <div class="tarjeta">
+
+                <div class="icono">🏙️</div>
+
+                <h3>Ciudades Inteligentes</h3>
+
+                <p>
+                    Son ciudades que utilizan tecnologías,
+                    sensores y datos para mejorar los servicios
+                    públicos y la calidad de vida de las personas.
+                </p>
+
+                <div class="ejemplo">
+
+                    <strong>Ejemplo:</strong>
+
+                    Semáforos inteligentes que modifican sus
+                    tiempos según el tráfico.
+
+                </div>
+
+            </div>
+
+
+
+            <!-- SOSTENIBILIDAD -->
+
+            <div class="tarjeta">
+
+                <div class="icono">🌱</div>
+
+                <h3>Sostenibilidad Ambiental</h3>
+
+                <p>
+                    Consiste en utilizar los recursos naturales
+                    de manera responsable, buscando reducir
+                    el impacto ambiental y proteger el planeta.
+                </p>
+
+                <div class="ejemplo">
+
+                    <strong>Ejemplo:</strong>
+
+                    Paneles solares, reciclaje, ahorro de agua
+                    y sistemas inteligentes de energía.
+
+                </div>
+
+            </div>
+
+
+
+            <!-- HIPERCONECTIVIDAD -->
+
+            <div class="tarjeta">
+
+                <div class="icono">📡</div>
+
+                <h3>Hiperconectividad</h3>
+
+                <p>
+                    Es la conexión permanente entre personas,
+                    dispositivos, sistemas y servicios mediante
+                    redes digitales.
+                </p>
+
+                <div class="ejemplo">
+
+                    <strong>Ejemplo:</strong>
+
+                    Un teléfono conectado a relojes inteligentes,
+                    vehículos, sensores y servicios en internet.
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= MODOS XR ================= -->
+
+<section>
+
+    <div class="contenedor">
+
+        <div class="titulo">
+
+            <h2>🥽 Experiencia XR</h2>
+
+            <p>
+                Realidad Aumentada, Realidad Virtual y Realidad Mixta.
+            </p>
+
+        </div>
+
+
+        <div class="modos">
+
+
+            <!-- RA -->
+
+            <div class="modo">
+
+                <div class="icono">📱</div>
+
+                <h3>RA</h3>
+
+                <p>
+                    La Realidad Aumentada incorpora elementos
+                    digitales sobre el entorno real utilizando
+                    dispositivos como teléfonos o tablets.
+                </p>
+
+            </div>
+
+
+            <!-- RV -->
+
+            <div class="modo">
+
+                <div class="icono">🥽</div>
+
+                <h3>RV</h3>
+
+                <p>
+                    La Realidad Virtual permite entrar en un
+                    entorno digital creado por computadora.
+                </p>
+
+            </div>
+
+
+            <!-- RM -->
+
+            <div class="modo">
+
+                <div class="icono">🌐</div>
+
+                <h3>RM</h3>
+
+                <p>
+                    La Realidad Mixta combina elementos físicos
+                    y digitales permitiendo que interactúen
+                    dentro de un mismo espacio.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= CIUDAD INTELIGENTE INTERACTIVA ================= -->
+
+<section id="ciudad" class="ciudad">
+
+    <div class="contenedor">
+
+        <div class="titulo">
+
+            <h2>🏙️ Ciudad Inteligente Interactiva</h2>
+
+            <p>
+                Haz clic sobre los diferentes elementos de la ciudad
+                para conocer cómo funciona una ciudad inteligente.
+            </p>
+
+        </div>
+
+
+        <!-- PANEL DE INFORMACIÓN -->
+
+        <div id="infoCiudad" class="info-ciudad">
+
+            <h3>🌐 Explora la ciudad</h3>
+
+            <p>
+                Selecciona un edificio, vehículo, panel solar,
+                árbol o sensor para obtener información.
+            </p>
+
+        </div>
+
+
+        <!-- BOTONES DE FUNCIONES -->
+
+        <div class="controles-ciudad">
+
+            <button class="boton" onclick="activarEnergia()">
+                ☀️ Energía inteligente
+            </button>
+
+            <button class="boton" onclick="activarTransporte()">
+                🚗 Transporte
+            </button>
+
+            <button class="boton" onclick="activarSensores()">
+                📡 Sensores
+            </button>
+
+            <button class="boton secundario" onclick="reiniciarCiudad()">
+                🔄 Reiniciar
+            </button>
+
+        </div>
+
+
+        <!-- ESCENA 3D -->
+
+        <div class="escena">
+
+            <a-scene embedded>
+
+                <!-- CIELO -->
+
+                <a-sky color="#07111f"></a-sky>
+
+
+                <!-- SUELO -->
+
+                <a-plane
+                    rotation="-90 0 0"
+                    width="30"
+                    height="30"
+                    color="#263238">
+                </a-plane>
+
+
+                <!-- CARRETERA -->
+
+                <a-plane
+                    position="0 0.03 -4"
+                    rotation="-90 0 0"
+                    width="5"
+                    height="25"
+                    color="#111827">
+                </a-plane>
+
+
+                <!-- EDIFICIO 1 -->
+
+                <a-box
+                    id="edificio1"
+                    class="elemento-ciudad"
+                    position="-4 2 -6"
+                    width="3"
+                    height="4"
+                    depth="3"
+                    color="#2563eb"
+                    onclick="mostrarInfo('edificio')">
+                </a-box>
+
+
+                <!-- EDIFICIO 2 -->
+
+                <a-box
+                    id="edificio2"
+                    class="elemento-ciudad"
+                    position="4 2 -6"
+                    width="3"
+                    height="4"
+                    depth="3"
+                    color="#14b8a6"
+                    onclick="mostrarInfo('edificio')">
+                </a-box>
+
+
+                <!-- EDIFICIO CENTRAL -->
+
+                <a-box
+                    id="edificio3"
+                    class="elemento-ciudad"
+                    position="0 3 -10"
+                    width="4"
+                    height="6"
+                    depth="4"
+                    color="#7c3aed"
+                    onclick="mostrarInfo('edificio')">
+                </a-box>
+
+
+                <!-- PANEL SOLAR -->
+
+                <a-box
+                    id="panelSolar"
+                    class="elemento-ciudad"
+                    position="0 0.5 -2"
+                    width="3"
+                    height="0.15"
+                    depth="2"
+                    color="#0ea5e9"
+                    rotation="-20 0 0"
+                    onclick="mostrarInfo('energia')">
+                </a-box>
+
+
+                <!-- ÁRBOL 1 -->
+
+                <a-cylinder
+                    position="-7 1 -6"
+                    radius="0.4"
+                    height="2"
+                    color="#78350f">
+                </a-cylinder>
+
+
+                <a-sphere
+                    id="arbol1"
+                    class="elemento-ciudad"
+                    position="-7 2.5 -6"
+                    radius="1.5"
+                    color="#22c55e"
+                    onclick="mostrarInfo('sostenibilidad')">
+                </a-sphere>
+
+
+                <!-- ÁRBOL 2 -->
+
+                <a-cylinder
+                    position="7 1 -6"
+                    radius="0.4"
+                    height="2"
+                    color="#78350f">
+                </a-cylinder>
+
+
+                <a-sphere
+                    id="arbol2"
+                    class="elemento-ciudad"
+                    position="7 2.5 -6"
+                    radius="1.5"
+                    color="#16a34a"
+                    onclick="mostrarInfo('sostenibilidad')">
+                </a-sphere>
+
+
+                <!-- VEHÍCULO -->
+
+                <a-box
+                    id="vehiculo"
+                    class="elemento-ciudad"
+                    position="2 0.5 -4"
+                    width="2"
+                    height="0.7"
+                    depth="1"
+                    color="#ef4444"
+                    onclick="mostrarInfo('transporte')">
+                </a-box>
+
+
+                <!-- SENSOR -->
+
+                <a-sphere
+                    id="sensor"
+                    class="elemento-ciudad"
+                    position="-2 2 -3"
+                    radius="0.35"
+                    color="#facc15"
+                    onclick="mostrarInfo('sensor')">
+                </a-sphere>
+
+
+                <!-- POSTE DE LUZ -->
+
+                <a-cylinder
+                    position="6 1.5 -3"
+                    radius="0.1"
+                    height="3"
+                    color="#64748b">
+                </a-cylinder>
+
+
+                <!-- LUZ INTELIGENTE -->
+
+                <a-sphere
+                    id="luz"
+                    class="elemento-ciudad"
+                    position="6 3.2 -3"
+                    radius="0.3"
+                    color="#facc15"
+                    onclick="mostrarInfo('luz')">
+                </a-sphere>
+
+
+                <!-- TEXTO -->
+
+                <a-text
+                    value="CIUDAD INTELIGENTE"
+                    position="0 6.5 -9"
+                    align="center"
+                    color="#ffffff"
+                    width="8">
+                </a-text>
+
+
+                <!-- CÁMARA -->
+
+                <a-camera position="0 2 5"></a-camera>
+
+            </a-scene>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= REALIDAD AUMENTADA ================= -->
+
+<section class="ra">
+
+    <div class="contenedor">
+
+        <div class="titulo">
+
+            <h2>📱 Realidad Aumentada</h2>
+
+            <p>
+                Esta sección representa la interacción de
+                información digital con el mundo real.
+            </p>
+
+        </div>
+
+
+        <button class="boton" onclick="activarRA()">
+
+            📷 Activar experiencia RA
+
+        </button>
+
+
+        <div id="mensajeRA">
+
+            <h3>🌐 Experiencia de Realidad Aumentada</h3>
+
+            <p>
+
+                La Realidad Aumentada permite visualizar
+                información digital sobre el entorno físico.
+
+                En una implementación completa se puede utilizar
+                la cámara del celular para reconocer una imagen
+                y mostrar encima un modelo 3D, texto o video.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= HIPERCONECTIVIDAD ================= -->
+
+<section>
+
+    <div class="contenedor">
+
+        <div class="titulo">
+
+            <h2>📡 Hiperconectividad</h2>
+
+            <p>
+                Todo conectado: personas, dispositivos y sistemas.
+            </p>
+
+        </div>
+
+
+        <div class="tarjetas">
+
+
+            <div class="tarjeta">
+
+                <div class="icono">📱</div>
+
+                <h3>Dispositivos</h3>
+
+                <p>
+                    Smartphones, relojes inteligentes,
+                    vehículos y sensores pueden intercambiar
+                    información mediante redes digitales.
+                </p>
+
+            </div>
+
+
+            <div class="tarjeta">
+
+                <div class="icono">☁️</div>
+
+                <h3>Nube</h3>
+
+                <p>
+                    Los datos pueden almacenarse y procesarse
+                    en servicios conectados a internet.
+                </p>
+
+            </div>
+
+
+            <div class="tarjeta">
+
+                <div class="icono">📊</div>
+
+                <h3>Datos</h3>
+
+                <p>
+                    La información obtenida por los dispositivos
+                    puede utilizarse para tomar decisiones.
+                </p>
+
+            </div>
+
+
+            <div class="tarjeta">
+
+                <div class="icono">🌐</div>
+
+                <h3>Internet</h3>
+
+                <p>
+                    Las redes permiten que diferentes sistemas
+                    intercambien información en tiempo real.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <p>
+        🌐 Experiencia XR | Proyecto académico
+    </p>
+
+    <p>
+        Realidad Aumentada • Realidad Virtual • Realidad Mixta
+    </p>
+
+</footer>
+
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+
+    /* ================= REALIDAD AUMENTADA ================= */
+
+    function activarRA() {
+
+        const mensaje = document.getElementById("mensajeRA");
+
+        if (mensaje.style.display === "block") {
+
+            mensaje.style.display = "none";
+
+        } else {
+
+            mensaje.style.display = "block";
+
+        }
+
+    }
+
+
+
+    /* ================= INFORMACIÓN DE LA CIUDAD ================= */
+
+    function mostrarInfo(tipo) {
+
+        const info = document.getElementById("infoCiudad");
+
+
+        if (tipo === "edificio") {
+
+            info.innerHTML = `
+                <h3>🏢 Edificio Inteligente</h3>
+
+                <p>
+                    Este edificio representa una construcción
+                    conectada mediante sensores. Puede controlar
+                    iluminación, temperatura, seguridad y consumo
+                    de energía de forma automática.
+                </p>
+            `;
+
+        }
+
+
+        else if (tipo === "energia") {
+
+            info.innerHTML = `
+                <h3>☀️ Energía Solar</h3>
+
+                <p>
+                    Los paneles solares permiten producir energía
+                    renovable y reducir el consumo de fuentes
+                    contaminantes.
+                </p>
+            `;
+
+        }
+
+
+        else if (tipo === "sostenibilidad") {
+
+            info.innerHTML = `
+                <h3>🌱 Sostenibilidad Ambiental</h3>
+
+                <p>
+                    Las zonas verdes ayudan a mejorar el ambiente
+                    y forman parte de una ciudad que busca reducir
+                    su impacto ambiental.
+                </p>
+            `;
+
+        }
+
+
+        else if (tipo === "transporte") {
+
+            info.innerHTML = `
+                <h3>🚗 Transporte Inteligente</h3>
+
+                <p>
+                    Los sistemas inteligentes pueden utilizar datos
+                    para mejorar el tráfico, optimizar rutas y
+                    disminuir los tiempos de desplazamiento.
+                </p>
+            `;
+
+        }
+
+
+        else if (tipo === "sensor") {
+
+            info.innerHTML = `
+                <h3>📡 Sensor IoT</h3>
+
+                <p>
+                    Los sensores recopilan información del entorno,
+                    como temperatura, tráfico, iluminación o calidad
+                    del aire, y envían los datos a sistemas conectados.
+                </p>
+            `;
+
+        }
+
+
+        else if (tipo === "luz") {
+
+            info.innerHTML = `
+                <h3>💡 Iluminación Inteligente</h3>
+
+                <p>
+                    Las luces inteligentes pueden encenderse,
+                    apagarse o regular su intensidad dependiendo
+                    de las condiciones del entorno.
+                </p>
+            `;
+
+        }
+
+    }
+
+
+
+    /* ================= ENERGÍA ================= */
+
+    function activarEnergia() {
+
+        const panel = document.getElementById("panelSolar");
+
+        panel.setAttribute(
+            "animation",
+            "property: rotation; to: -20 360 0; loop: true; dur: 4000"
+        );
+
+        mostrarInfo("energia");
+
+    }
+
+
+
+    /* ================= TRANSPORTE ================= */
+
+    function activarTransporte() {
+
+        const vehiculo = document.getElementById("vehiculo");
+
+        vehiculo.setAttribute(
+            "animation",
+            "property: position; to: 6 0.5 -4; dur: 3000"
+        );
+
+        mostrarInfo("transporte");
+
+    }
+
+
+
+    /* ================= SENSORES ================= */
+
+    function activarSensores() {
+
+        const sensor = document.getElementById("sensor");
+
+        sensor.setAttribute(
+            "animation",
+            "property: scale; to: 1.8 1.8 1.8; dir: alternate; loop: true; dur: 700"
+        );
+
+        mostrarInfo("sensor");
+
+    }
+
+
+
+    /* ================= REINICIAR ================= */
+
+    function reiniciarCiudad() {
+
+        location.reload();
+
+    }
+
+</script>
+
+
+</body>
+
+</html>
+```
